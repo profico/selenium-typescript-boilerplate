@@ -1,0 +1,36 @@
+import { WebDriver } from "selenium-webdriver";
+import { GetDriver } from "@utilities/builder";
+
+//
+// Testing
+//
+
+// Starting URL
+const rootURL: string = //Required -> addresses;
+// in ms
+const ttl: number = +(process.env.TIMETOLIVE) || 1000 * 20;
+jest.setTimeout(+(process.env.TIMEOUT) || 1000 * 90);
+
+const browserDriver: string = process.env.WEBDRIVER;
+
+let driver: WebDriver;
+let isDescribeValid: jest.Describe;
+try{
+    driver = GetDriver(browserDriver);
+    isDescribeValid = describe;
+}
+catch(e){
+    isDescribeValid = describe.skip;
+    console.log(e);
+};
+
+isDescribeValid((`${browserDriver} tests`).toUpperCase(), ()=>{
+
+    it("sets up the testing area", async ()=>{
+        await driver.get(rootURL);
+    });
+
+    it(`stops ${browserDriver}`, async ()=>{
+        await driver.quit();
+    });
+});
