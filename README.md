@@ -1,4 +1,5 @@
-### DON'T OVERLOOK THIS (needed for running tests) 
+# Getting started
+## DON'T OVERLOOK THIS (needed for running tests) 
 - have browsers you want to test on installed
 - have browser webdrivers in $PATH for browsers you want to test
 
@@ -13,14 +14,14 @@
 
 <br>
 	
-#### Using Selenium WebDriver 4 Javascript bindings:
+### Using Selenium WebDriver 4 Javascript bindings:
 > https://www.npmjs.com/package/selenium-webdriver
-#### Selenium WebDriverJS bindings documentation:
+### Selenium WebDriverJS bindings documentation:
 > https://www.selenium.dev/selenium/docs/api/javascript/index.html
 
 <br>
 
-#### NEW PROJECT:
+### NEW PROJECT:
 ```
 yarn init
 yarn add jest @types/jest selenium-webdriver @types/selenium-webdriver typescript ts-jest
@@ -34,7 +35,7 @@ tsc --init
 ```
 <br>
 		
-#### SETTING FROM THIS REPOSITORY (after cloning it):
+### SETTING FROM THIS REPOSITORY (after cloning it):
 ```
 yarn
 ```
@@ -44,12 +45,12 @@ yarn
 
 <br>
 
-#### HOW TO RUN TESTS
-##### Required envs:
+### HOW TO RUN TESTS
+#### Required envs:
 - WEBDRIVER 
 	- determines on which WebDriver to run tests
 
-##### Optional envs:
+#### Optional envs:
 - LOCATION 
 	- defaults to nothing, which runs tests locally
 	- *remote* uses link in builder.ts, requires changing
@@ -61,8 +62,10 @@ yarn
 	- *headless* runs browsers that have the capability (i.e. not Safari) in headless mode
 	
 > CHECK `package.json -> scripts` FOR MORE DETAILS:
+
+<br>
 	
-##### Windows10 Powershell example: chrome, headless, default binaries, local
+#### Windows10 Powershell example: chrome, headless, default binaries, local
 ```
 $env:WEBDRIVER="chrome"
 $env:UI="headless"
@@ -72,7 +75,7 @@ jest partOfANameOfTest(s)(suites)
 
 <br>
 
-##### MacOS zsh example: firefox, customBinaries, local
+#### MacOS zsh example: firefox, customBinaries, local
 ```
 yarn test:customBinaries:firefox partOfANameOfTest(s)(suites)
 ```
