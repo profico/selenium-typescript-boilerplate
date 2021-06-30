@@ -1,0 +1,94 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: selenium-node-firefox-4.0.0-rc-1-prerelease-20210618
+  annotations:
+    description: Selenium Node with Firefox browser
+    iconClass: icon-selenium
+    tags: 'selenium,node,firefox'
+objects:
+  - apiVersion: v1
+    kind: DeploymentConfig
+    metadata:
+      name: selenium-node-firefox
+    spec:
+      strategy:
+        type: Recreate
+      replicas: 0
+      selector:
+        browser: firefox
+      template:
+        metadata:
+          name: selenium-node-firefox-master
+          labels:
+            browser: firefox
+        spec:
+          containers:
+            - env:
+                - name: JAVA_OPTS
+                  value: '${JAVA_OPTS}'
+                - name: SE_OPTS
+                  value: '${SE_OPTS}'
+                - name: HUB_PORT_4444_TCP_ADDR
+                  value: '${HUB_PORT_4444_TCP_ADDR}'
+                - name: HUB_PORT_4444_TCP_PORT
+                  value: '${HUB_PORT_4444_TCP_PORT}'
+                - name: REMOTE_HOST
+                  value: '${REMOTE_HOST}'
+                - name: SE_EVENT_BUS_HOST
+                  value: '${SE_EVENT_BUS_HOST}'
+                - name: SE_EVENT_BUS_PUBLISH_PORT
+                  value: '${SE_EVENT_BUS_PUBLISH_PORT}'
+                - name: SE_EVENT_BUS_SUBSCRIBE_PORT
+                  value: '${SE_EVENT_BUS_SUBSCRIBE_PORT}'
+              image: 'selenium/node-firefox:4.0.0-rc-1-prerelease-20210618'
+              name: master
+              ports:
+                - containerPort: 4444
+                  protocol: TCP
+                - containerPort: 5555
+                  protocol: TCP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: selenium-node-firefox
+    spec:
+      selector:
+        browser: firefox
+      type: ClusterIP
+      ports:
+        - name: node-port
+          port: 5555
+          targetPort: 5555
+          protocol: TCP
+        - name: node-port-grid
+          port: 4444
+          targetPort: 4444
+          protocol: TCP
+parameters:
+  - name: JAVA_OPTS
+    description: Options for the Java command
+    value: '-Xmx512m -Dselenium.LOGGER.level=WARNING'
+  - name: SE_OPTS
+    description: Options for the Node
+  - name: HUB_PORT_4444_TCP_ADDR
+    description: The Hub to connect to
+    value: selenium-hub
+  - name: HUB_PORT_4444_TCP_PORT
+    description: The Hub port to connect to
+    value: '4444'
+  - name: REMOTE_HOST
+    description: The remote host
+  - name: NODE_ID
+    description: Unique ID assigned to the node
+    generate: expression
+    from: '[a-z]{4}'
+  - name: SE_EVENT_BUS_HOST
+    description: The selenium event hub host
+    value: selenium-hub
+  - name: SE_EVENT_BUS_PUBLISH_PORT
+    description: The publish port
+    value: '4442'
+  - name: SE_EVENT_BUS_SUBSCRIBE_PORT
+    description: The subscribe port
+    value: '4443'
