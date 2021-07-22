@@ -1,11 +1,8 @@
 FROM alpine:latest
 
 RUN apk update && \
-    apk --no-cache add git zsh yarn
+    apk --no-cache add zsh yarn
 
-# RUN git clone https://github.com/fvidak01/SeleniumFano.git /testing
-
-# Copying enviroment files
 COPY . /testing/
 
 RUN cd /testing && \
