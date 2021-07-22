@@ -1,6 +1,6 @@
 # Getting started
 
-## DON'T OVERLOOK THIS (needed for running tests without Docker)
+## DON'T OVERLOOK THIS (needed for running tests without [Docker](#docker))
 
 - have browsers you want to test on installed
 - have browser webdrivers in $PATH for browsers you want to test
@@ -29,17 +29,17 @@
 
 ### NEW PROJECT
 
-```bash
+```zsh
 yarn init
 yarn add jest selenium-webdriver typescript ts-jest
 yarn add @types/jest @types/selenium-webdriver
 npx jest --init
 ```
 
-> when asked if you want to use Typescript, choose NO <br>
+> when asked if you want to use Typescript, choose NO  
 > add-> `preset: "ts-jest",` <-to module.exports in jest.config.js
 
-```bash
+```zsh
 tsc --init
 ```
 
@@ -50,9 +50,6 @@ tsc --init
 ```bash
 yarn
 ```
-
-> Just a note: might need 'yarn global add jest' if jest commands don't want to run tests.
-> Might be windows/powershell issue but don't take my word for it.
 
 <br>
 
@@ -68,15 +65,15 @@ yarn
 
 - LOCATION
   - defaults to nothing, which runs tests locally
-  - *remote* uses link in builder.ts, requires changing
+  - `remote` uses link in `builder.ts`, requires changing
 
 - BINARIES
   - defaults to nothing, which looks for default install location for used OS (ProgramFiles(and x86) for Windows or Applications for MacOS)
-  - *custom* uses path in builder.ts, requires changing
+  - `custom` uses path in `builder.ts`, requires changing
 
 - UI
   - defaults to nothing, which runs WebDriver in GUI mode
-  - *headless* runs browsers that have the capability (i.e. not Safari) in headless mode
+  - `headless` runs browsers that have the capability (i.e. not Safari) in headless mode
 
 > CHECK `package.json -> scripts` FOR MORE DETAILS:
 
@@ -87,7 +84,7 @@ yarn
 ```PowerShell
 $env:WEBDRIVER="chrome"
 $env:UI="headless"
-jest partOfANameOfTest(s)(suites)
+yarn jest partOfANameOfTest(s)(suites)
 ```
 
 > MORE ON THIS: <https://jestjs.io/docs/cli>
@@ -105,7 +102,7 @@ yarn test:customBinaries:firefox partOfANameOfTest(s)(suites)
 <br> **OR**
 
 ```zsh
-BINARIES=custom WEBDRIVER=firefox jest
+BINARIES=custom WEBDRIVER=firefox yarn jest partOfANameOfTest(s)(suites)
 ```
 
 <br>
@@ -123,24 +120,21 @@ so for Safari it's:
 yarn test:safari partOfANameOfTest(s)(suites)
 ```
 
-<br> **OR** <br>
+<br> **OR**
 
 ```zsh
-WEBDRIVER=safari jest --maxWorkers=1 partOfANameOfTest(s)(suites)
+WEBDRIVER=safari yarn jest --maxWorkers=1 partOfANameOfTest(s)(suites)
 ```
 
 <br>
 
-#### Docker example: firefox, defaultBinaries, remote, headless
+#### <a name="docker"></a> Docker example: firefox, defaultBinaries, remote, headless
 
 - Have Docker/Hub installed and running
 - Modify gridRouterAddress to wherever you are running the grid
-  
-  - gridSetups has docker-compose.yaml which builds complete v4 grid and 4 yamls which can be used to build v3 grid on, for example, OpenShift
-
 - Running tests is same as in above examples with few limitations depending on setup
 
-  - docker image has no browser and webdriver installed, it's just a test-caller and info-handler so *LOCATION=remote* is **required**, *BINARIES* are most likely local, i.e. default and browsers can't be seen (or at least aren't taking focus) so *UI* can be both default and headless with no practical difference
+  - docker image has no browsers and webdrivers installed, it's just a test-caller and info-handler so `LOCATION=remote` is **required**, `BINARIES` are most likely local, i.e. default and browsers can't be seen (or at least aren't taking focus) so `UI` can be both default and headless with no practical difference for Grid 3 (hub and nodes) but has to be `UI=headless` for Grid 4 (fully distributed)
 
 ```zsh
 docker build path_to_dockerfile_in_project_dir -t name_of_the_image
